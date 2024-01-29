@@ -11,18 +11,19 @@ import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/user-service")
 @RequiredArgsConstructor
 public class UserController {
 
-    //    private final Environment env;
+    private final Environment env;
     private final Greeting greeting;
     private final UserService userService;
     private final ModelMapper mapper;
 
-    @GetMapping("/health-check")
+    @GetMapping("/health_check")
     public String status() {
-        return "It's working in User Service";
+        return String.format("It's working in User Service on Port %s",
+                env.getProperty("local.server.port"));
     }
 
     @GetMapping("/welcome")
@@ -33,7 +34,6 @@ public class UserController {
 
     @PostMapping("/users")
     public String createUser(@RequestBody RequestUser user) {
-//        ModelMapper mapper = new ModelMapper();
         mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
         UserDto userDto = mapper.map(user, UserDto.class);
         userService.createUser(userDto);
