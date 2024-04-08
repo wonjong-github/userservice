@@ -28,7 +28,7 @@ spring:
   security:
     user:
       name: user
-      password: hello
+      password: password
 
 
 eureka:
